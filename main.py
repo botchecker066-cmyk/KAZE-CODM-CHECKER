@@ -53,7 +53,7 @@ def keep_alive():
     Thread(target=lambda: app_web.run(host="0.0.0.0", port=port)).start()
 
 # > Bot Token Here - Change the Token_here below -
-BOT_TOKEN = "8546554642:AAEKTUJcaCb3-_ee5gfg4sCrGRemxiWweRU"
+BOT_TOKEN = "7557995616:AAHeg_UxZK0r4LLLb-unCi6iJ8nFWGtyrU8"
 
 bot = telebot.TeleBot(BOT_TOKEN, num_threads=30)
 
