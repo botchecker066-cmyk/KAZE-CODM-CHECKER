@@ -37,18 +37,15 @@ from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from fake_useragent import UserAgent
-from flask import Flask
-from threading import Thread
 
 # > Bot Token Here - Change the Token_here below -
 BOT_TOKEN = "7557995616:AAFboGlet-Cygc0S89Sj5SiAc9wbRb9J6GM"
 
 bot = telebot.TeleBot(BOT_TOKEN, num_threads=30)
 
-app = Flask(__name__)
-
 # > Admin ID Here - Change the 123456789 below -
-ADMIN_IDS = [7201369115] 
+# Selyadong Listahan ng mga Admin IDs
+ADMIN_IDS = [7201369115, 5677345533]
 
 DATABASE_FILE = "database.db"
 
@@ -3365,7 +3362,8 @@ def create_forced_socks5_session():
 
 # ================= WEBHOOK SERVER ENGINE =================
 
-@app.route('/' + TOKEN, methods=['POST'])
+# 📋 Pinalitan ng BOT_TOKEN ang dating TOKEN
+@app.route('/' + BOT_TOKEN, methods=['POST'])
 def getMessage():
     json_string = request.get_data().decode('utf-8')
     update = telebot.types.Update.de_json(json_string)
@@ -3375,9 +3373,10 @@ def getMessage():
 @app.route("/")
 def webhook():
     bot.remove_webhook()
-    # ⚠️ PALITAN MO ITO: Ilagay mo rito ang Render URL ng app mo kapag na-deploy na
+    # ⚠️ PALITAN MO ITO: Ilagay mo rito ang Render URL ng app mo mamaya
     RENDER_URL = "https://kaze-codm-checker-i0ke.onrender.com" 
-    bot.set_webhook(url=RENDER_URL + '/' + TOKEN)
+    # 📋 Pinalitan din dito ng BOT_TOKEN ang dating TOKEN
+    bot.set_webhook(url=RENDER_URL + '/' + BOT_TOKEN)
     return "Bot is online! Webhook active.", 200
 
 if __name__ == '__main__':
