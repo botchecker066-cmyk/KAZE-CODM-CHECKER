@@ -46,7 +46,7 @@ app = Flask(__name__)
 BOT_TOKEN = "7557995616:AAFboGlet-Cygc0S89Sj5SiAc9wbRb9J6GM"
 TOKEN = BOT_TOKEN  # Gumawa ng alias para hindi mag-error ang code sa baba
 
-bot = telebot.TeleBot(BOT_TOKEN, num_threads=50)
+bot = telebot.TeleBot(BOT_TOKEN, num_threads=10)
 
 # > Admin ID Here - Change the 123456789 below -
 ADMIN_IDS = [7201369115, 5677345533]
