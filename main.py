@@ -40,22 +40,12 @@ from fake_useragent import UserAgent
 from flask import Flask
 from threading import Thread
 
-# ===== WEBKEEP ALIVE =====
-app_web = Flask(__name__)
-OWNER_ID = 7201369115
-
-@app_web.route("/")
-def home():
-    return "Bot is online!"
-
-def keep_alive():
-    port = int(os.environ.get("PORT", 10000))
-    Thread(target=lambda: app_web.run(host="0.0.0.0", port=port)).start()
-
 # > Bot Token Here - Change the Token_here below -
-BOT_TOKEN = "7557995616:AAHeg_UxZK0r4LLLb-unCi6iJ8nFWGtyrU8"
+BOT_TOKEN = "7557995616:AAFboGlet-Cygc0S89Sj5SiAc9wbRb9J6GM"
 
 bot = telebot.TeleBot(BOT_TOKEN, num_threads=30)
+
+app = Flask(__name__)
 
 # > Admin ID Here - Change the 123456789 below -
 ADMIN_IDS = [7201369115] 
@@ -3373,7 +3363,24 @@ def create_forced_socks5_session():
 # session = create_forced_socks5_session()
 # response = session.get("https://api.ipify.org?format=json", timeout=15)
 
+# ================= WEBHOOK SERVER ENGINE =================
+
+@app.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    json_string = request.get_data().decode('utf-8')
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "!", 200
+
+@app.route("/")
+def webhook():
+    bot.remove_webhook()
+    # ⚠️ PALITAN MO ITO: Ilagay mo rito ang Render URL ng app mo kapag na-deploy na
+    RENDER_URL = "https://kaze-codm-checker-i0ke.onrender.com" 
+    bot.set_webhook(url=RENDER_URL + '/' + TOKEN)
+    return "Bot is online! Webhook active.", 200
+
 if __name__ == '__main__':
-    print("Starting Telegram Bot (Pure Version)")
-    keep_alive()  # Ito yung Flask server para sa Render
-    bot.infinity_polling(skip_pending=True)
+    print("Starting Telegram Bot (Webhook Version)")
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host="0.0.0.0", port=port)
